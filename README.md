@@ -1,5 +1,7 @@
 # CatLang
 
+[![Deploy docs](https://github.com/ghostmander/catlang/actions/workflows/main.yml/badge.svg?branch=main&event=deployment)](https://github.com/ghostmander/catlang/actions/workflows/main.yml)
+
 ---
 
 ## Description
