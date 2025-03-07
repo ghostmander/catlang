@@ -19,7 +19,7 @@ std::vector<std::string> read_file(const std::string &fileName) {
     // Check if the file opened successfully
     if (!file.is_open()) {
         std::cerr << "Error opening file: " << fileName << std::endl;
-        return lines;
+        exit(-1);
     }
 
     std::string line;
