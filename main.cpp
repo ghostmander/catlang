@@ -7,6 +7,24 @@
 
 using namespace std;
 
+/**Quick utility function to convert all inxfix math into postfix notation.
+ * This function uses the shunting yard algorithm to convert infix notation to postfix notation.
+ * The function uses a stack to keep track of the operators and operands. It involves the following steps:
+ * 1. - For all the input tokens, Read the next token;
+ * 1. --- If token is an operator (x):
+ * 1. ----- While there is an operator (y) at the top of the operators stack and either (x) is left-associative and its precedence is less or equal to that of (y), or (x) is right-associative and its precedence is less than (y):
+ * 1. ------- Move (y) from the stack to output buffer;
+ * 1. ----- Push (x) on the stack;
+ * 1. --- Else If token is left parenthesis, then push it on the stack;
+ * 1. --- Else If token is a right parenthesis:
+ * 1. ----- Until the top token (from the stack) is left parenthesis, pop from the stack to the output buffer;
+ * 1. ----- Also pop the left parenthesis but don't include it in the output buffer;
+ * 1. --- Else add token to output buffer.
+ * 1. - While there are still operator tokens in the stack, pop them to output
+ *
+ * @param infix Infix expression to convert into postfix
+ * @return Returns a vector of tokens in polish postfix notation
+ */
 vector<string> infix_to_rpn(const string& infix) {
     stack<string> st;
     vector<string> output;
@@ -47,10 +65,19 @@ vector<string> infix_to_rpn(const string& infix) {
     return output;
 }
 
-
+/*! Evaluator class to manage all variables and program counters in the future.
+ * The class will have a map of variables and their values. It will also have a function to evaluate the program.
+ * This will be moved to a separate file in the future.
+ */
 class Evaluator {
-    unordered_map<string, int> variable_map = {};
+    unordered_map<string, int> variable_map = {}; // Map of variables and their values
 
+    /**
+     * Function to calculate the expression from the postfix notation.
+     * This will call the infix_to_rpn function to convert the infix expression to postfix notation. It will then process postfix notation to calculate the result.
+     * @param expr Expression to calculate
+     * @return Returns the result of the expression
+     */
     int calculate_expression(const string &expr) {
         stack<int> st;
         int lhs, rhs;
@@ -93,6 +120,10 @@ class Evaluator {
         return st.top();
     }
 public:
+    /**
+     * This function will evaluate the line and store the result in the variable map, if required.
+     * @param line The line to be evaluated.
+     */
     void evaluate_line(const string &line) {
         vector<string> line_comps = split(line, "=", true);
         int res = calculate_expression(line_comps[line_comps.size() - 1]);
@@ -101,6 +132,10 @@ public:
         cout << line << " = " << res << endl;
     }
 
+    /**
+     * This will execute the program line by line.
+     * @param lines Code array, split line wise
+     */
     void evaluate_program(const vector<string>& lines) {
         for (const auto& line : lines)
             evaluate_line(line);
