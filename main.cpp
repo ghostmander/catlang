@@ -1,3 +1,8 @@
+/*! \file main.cpp
+    \brief Binds everything together.
+    \todo Move lexer specific parts to its own header
+    \todo Add functionality to be able to use both postfix and infix notation.
+*/
 #include <iostream>
 #include <vector>
 #include <stack>
@@ -10,17 +15,17 @@ using namespace std;
 /**Quick utility function to convert all inxfix math into postfix notation.
  * This function uses the shunting yard algorithm to convert infix notation to postfix notation.
  * The function uses a stack to keep track of the operators and operands. It involves the following steps:
- * 1. - For all the input tokens, Read the next token;
- * 1. --- If token is an operator (x):
- * 1. ----- While there is an operator (y) at the top of the operators stack and either (x) is left-associative and its precedence is less or equal to that of (y), or (x) is right-associative and its precedence is less than (y):
- * 1. ------- Move (y) from the stack to output buffer;
- * 1. ----- Push (x) on the stack;
- * 1. --- Else If token is left parenthesis, then push it on the stack;
- * 1. --- Else If token is a right parenthesis:
- * 1. ----- Until the top token (from the stack) is left parenthesis, pop from the stack to the output buffer;
- * 1. ----- Also pop the left parenthesis but don't include it in the output buffer;
- * 1. --- Else add token to output buffer.
- * 1. - While there are still operator tokens in the stack, pop them to output
+ * -# For all the input tokens, Read the next token;
+ *   -# If token is an operator (x):
+ *     -# While there is an operator (y) at the top of the operators stack and either (x) is left-associative and its precedence is less or equal to that of (y), or (x) is right-associative and its precedence is less than (y):
+ *       -# Move (y) from the stack to output buffer;
+ *     -# Push (x) on the stack;
+ *   -# Else If token is left parenthesis, then push it on the stack;
+ *   -# Else If token is a right parenthesis:
+ *     -# Until the top token (from the stack) is left parenthesis, pop from the stack to the output buffer;
+ *     -# Also pop the left parenthesis but don't include it in the output buffer;
+ *   -# Else add token to output buffer.
+ * -# While there are still operator tokens in the stack, pop them to output
  *
  * @param infix Infix expression to convert into postfix
  * @return Returns a vector of tokens in polish postfix notation
@@ -65,12 +70,14 @@ vector<string> infix_to_rpn(const string& infix) {
     return output;
 }
 
-/*! Evaluator class to manage all variables and program counters in the future.
+/**
+ * Evaluator class to manage all variables and program counters in the future.
  * The class will have a map of variables and their values. It will also have a function to evaluate the program.
  * This will be moved to a separate file in the future.
  */
 class Evaluator {
-    unordered_map<string, int> variable_map = {}; // Map of variables and their values
+public:
+    unordered_map<string, int> variable_map = {}; ///< Map of variables and their values
 
     /**
      * Function to calculate the expression from the postfix notation.
@@ -119,7 +126,7 @@ class Evaluator {
         }
         return st.top();
     }
-public:
+
     /**
      * This function will evaluate the line and store the result in the variable map, if required.
      * @param line The line to be evaluated.

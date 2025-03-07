@@ -1,3 +1,9 @@
+/*! \file reader.h
+    \brief Provides file reading utility functions.
+
+    Includes a function to read a file and return a vector of strings, each representing a line from the file.
+*/
+
 #ifndef CATLANG_READER_H
 #define CATLANG_READER_H
 

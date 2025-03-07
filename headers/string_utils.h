@@ -1,3 +1,6 @@
+/*! \file string_utils.h
+    \brief Provides string utility functions.
+*/
 #ifndef CATLANG_STRING_UTILS_H
 #define CATLANG_STRING_UTILS_H
 
@@ -10,22 +13,22 @@
 #include <sstream>
 
 
-inline bool isAlnum(const std::string &s);         /// Returns True if all characters in the string are alphanumeric
-inline bool isAlpha(const std::string &s);         /// Returns True if all characters in the string are in the alphabet
-inline bool isDigit(const std::string &s);         /// Returns True if all characters in the string are digits
-inline bool isSpace(const std::string &s);         /// Returns True if all characters in the string are whitespace
-inline bool isHexadecimal(const std::string &s);   /// Returns True if all characters in the string are hexadecimal digits
-inline bool isPunctuation(const std::string &s);   /// Returns True if all characters in the string are punctuation
-inline bool isPrintable(const std::string &s);     /// Returns True if all characters in the string are printable
-inline bool isGraphical(const std::string &s);     /// Returns True if all characters in the string are graphical
-inline bool isEmpty (const std::string &s);        /// Returns True if the string is empty
+inline bool isAlnum(const std::string &s);         ///< Returns True if all characters in the string are alphanumeric
+inline bool isAlpha(const std::string &s);         ///< Returns True if all characters in the string are in the alphabet
+inline bool isDigit(const std::string &s);         ///< Returns True if all characters in the string are digits
+inline bool isSpace(const std::string &s);         ///< Returns True if all characters in the string are whitespace
+inline bool isHexadecimal(const std::string &s);   ///< Returns True if all characters in the string are hexadecimal digits
+inline bool isPunctuation(const std::string &s);   ///< Returns True if all characters in the string are punctuation
+inline bool isPrintable(const std::string &s);     ///< Returns True if all characters in the string are printable
+inline bool isGraphical(const std::string &s);     ///< Returns True if all characters in the string are graphical
+inline bool isEmpty (const std::string &s);        ///< Returns True if the string is empty
 
-bool startsWith(const std::string &s, std::string &prefix);    /// Return True if the string starts with the specified prefix, otherwise return False
-bool endsWith(const std::string &s, std::string &suffix);      /// Return True if the string ends with the specified suffix, otherwise return False
+bool startsWith(const std::string &s, std::string &prefix);    ///< Return True if the string starts with the specified prefix, otherwise return False
+bool endsWith(const std::string &s, std::string &suffix);      ///< Return True if the string ends with the specified suffix, otherwise return False
 
-inline std::string lstrip(std::string s);   /// Return a copy of the string with leading whitespace removed.
-inline std::string rstrip(std::string s);   /// Return a copy of the string with trailing whitespace removed.
-inline std::string strip(std::string s);    /// Return a copy of the string with leading and trailing whitespace removed.
+inline std::string lstrip(std::string s);   ///< Return a copy of the string with leading whitespace removed.
+inline std::string rstrip(std::string s);   ///< Return a copy of the string with trailing whitespace removed.
+inline std::string strip(std::string s);    ///< Return a copy of the string with leading and trailing whitespace removed.
 
 template<typename Delim> std::string getWord(std::istream& ss, Delim d);
 std::vector<std::string> splitHelper(const std::string& s, const std::string& delim = " ", bool enable_trim = true);
