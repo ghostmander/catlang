@@ -5,66 +5,74 @@
 #include <algorithm>
 #include <cctype>
 #include <locale>
+#include <utility>
 #include <vector>
 #include <sstream>
 #include <cstddef>
 
+bool isAlnum(const std::string &s);         // Returns True if all characters in the string are alphanumeric
+bool isAlpha(const std::string &s);         // Returns True if all characters in the string are in the alphabet
+bool isDigit(const std::string &s);         // Returns True if all characters in the string are digits
+bool isSpace(const std::string &s);         // Returns True if all characters in the string are whitespace
+bool isHexadecimal(const std::string &s);   // Returns True if all characters in the string are hexadecimal digits
+bool isPunctuation(const std::string &s);   // Returns True if all characters in the string are punctuation
+bool isPrintable(const std::string &s);     // Returns True if all characters in the string are printable
+bool isGraphical(const std::string &s);     // Returns True if all characters in the string are graphical
+bool isEmpty (const std::string &s);        // Returns True if the string is empty
 
+bool startsWith(const std::string &s, std::string &prefix);    // Return True if the string starts with the specified prefix, otherwise return False
+bool endsWith(const std::string &s, std::string &suffix);      // Return True if the string ends with the specified suffix, otherwise return False
 
-inline void ltrim_inplace(std::string &s);  // Trims whitespace from start (in place)
-inline std::string ltrim(std::string s);    // Trims whitespace from start (copy)
-inline void rtrim_inplace(std::string &s);  // Trims whitespace from the end (in place)
-inline std::string rtrim(std::string s);    // Trims whitespace from the end (copy)
-inline void trim_inplace(std::string &s);   // Trims whitespace from both ends (in place)
-inline std::string trim(std::string s);     // Trims whitespace from both ends (copy)
-bool isSpace(const std::string &s);         // Checks if the string is all whitespace
-bool isEmpty (const std::string &s);        // Checks if the string is empty
+inline std::string lstrip(std::string s);   // Return a copy of the string with leading whitespace removed.
+inline std::string rstrip(std::string s);   // Return a copy of the string with trailing whitespace removed.
+inline std::string strip(std::string s);    // Return a copy of the string with leading and trailing whitespace removed.
+
 template<typename Delim> std::string getWord(std::istream& ss, Delim d);
 std::vector<std::string> splitHelper(const std::string& s, const std::string& delim = " ", bool enable_trim = true);
 std::vector<std::string> split(const std::string& s, const std::string& delim = "", bool enable_trim = false);
 
-// trim_inplace from start (in place)
-inline void ltrim_inplace(std::string &s) {
+inline std::string lstrip(std::string s) {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
         return !std::isspace(ch);
     }));
+    return s;
 }
 
-// trim_inplace from end (in place)
-inline void rtrim_inplace(std::string &s) {
+inline std::string rstrip(std::string s) {
     s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
         return !std::isspace(ch);
     }).base(), s.end());
-}
-
-// trim_inplace from both ends (in place)
-inline void trim_inplace(std::string &s) {
-    rtrim_inplace(s);
-    ltrim_inplace(s);
-}
-
-// trim_inplace from start (copying)
-inline std::string ltrim(std::string s) {
-    ltrim_inplace(s);
     return s;
 }
 
-// trim_inplace from end (copying)
-inline std::string rtrim(std::string s) {
-    rtrim_inplace(s);
-    return s;
+inline std::string strip(std::string s) {
+    return rstrip(lstrip(std::move(s)));
 }
 
-// trim_inplace from both ends (copying)
-inline std::string trim(std::string s) {
-    trim_inplace(s);
-    return s;
+bool isDigit(const std::string &s) {
+    return std::all_of(s.begin(), s.end(), isdigit);
 }
-
+bool isAlpha(const std::string &s) {
+    return std::all_of(s.begin(), s.end(), isalpha);
+}
+bool isHexadecimal(const std::string &s) {
+    return std::all_of(s.begin(), s.end(), isxdigit);
+}
+bool isPunctuation(const std::string &s) {
+    return std::all_of(s.begin(), s.end(), ispunct);
+}
+bool isAlnum(const std::string &s) {
+    return std::all_of(s.begin(), s.end(), isalnum);
+}
+bool isPrintable(const std::string &s) {
+    return std::all_of(s.begin(), s.end(), isprint);
+}
+bool isGraphical(const std::string &s) {
+    return std::all_of(s.begin(), s.end(), isgraph);
+}
 bool isSpace(const std::string &s) {
     return std::all_of(s.begin(), s.end(), isspace);
 }
-
 bool isEmpty (const std::string &s) {
     return s.empty();
 }
@@ -90,7 +98,7 @@ std::vector<std::string> splitHelper(const std::string& s, const std::string& de
 
     std::vector<std::string> words;
     if (enable_trim)
-        for (std::string w; !(w = trim(getWord(ss, del))).empty(); ) words.push_back(w);
+        for (std::string w; !(w = strip(getWord(ss, del))).empty(); ) words.push_back(w);
     else
         for (std::string w; !(w = getWord(ss, del)).empty(); ) words.push_back(w);
 

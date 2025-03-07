@@ -25,7 +25,7 @@ std::vector<std::string> read_file(const std::string &fileName) {
     std::string line;
     while (std::getline(file, line))
         if (!isEmpty(line) && !isSpace(line))
-            lines.push_back(rtrim(line));
+            lines.push_back(rstrip(line));
 
     file.close();
     return lines;
